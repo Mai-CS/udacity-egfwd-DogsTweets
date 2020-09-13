@@ -1,4 +1,4 @@
-created_at,tweet_id,retweet_count,favorite_count,stage,jpg_url,species_prediction,prediction_conf,year
+created_at,tweet_id,retweet_count,favorite_count,stage,image_url,species_prediction,prediction_conf,year
 2017-08-01 00:17:27+00:00,892177421306343426,6514,33819,nan,https://pbs.twimg.com/media/DGGmoV4XsAAUL6n.jpg,Chihuahua,0.323581,2017
 2017-07-31 00:18:03+00:00,891815181378084864,4328,25461,nan,https://pbs.twimg.com/media/DGBdLU1WsAANxJ9.jpg,Chihuahua,0.716012,2017
 2017-07-29 16:00:24+00:00,891327558926688256,9774,41048,nan,https://pbs.twimg.com/media/DF6hr6BUMAAzZgT.jpg,basset,0.555712,2017

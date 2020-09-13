@@ -3,15 +3,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from helpers import clean_data, gather_data
+import stage_prediction
 
-DATA_NAMES = ["archived_tweets", "fetched_tweets", "image_predictions", "merged"]
+DATA_NAMES = ["enhanced_tweets", "fetched_tweets", "image_predictions", "merged"]
 
 
 def gather():
-    """Gathers data of tweets from both the archived CSV file and JSON file.
+    """Collects data of tweets from both the enhanced CSV file and JSON file.
     Loads the downloaded image predictions dataset"""
 
-    return gather_data.load_date("resources/twitter_archive_enhanced.csv", ","), \
+    return gather_data.load_date("twitter_archive_enhanced.csv", "default"), \
            gather_data.tweets_json_to_dataframe(), \
            gather_data.download_image_predictions()
 
@@ -55,6 +56,9 @@ def clean(df, data_name):
         # Get specific columns from the dataset and ignore the rest
         df = clean_data.get_some_columns(df, ["tweet_id", "jpg_url", "p1", "p1_conf", "p1_dog"])
 
+        # Rename columns
+        df = clean_data.rename_columns(df, {"jpg_url": "image_url"})
+
         # Get only dogs and ignore non-dogs
         df = clean_data.filter_by_condition(df, df["p1_dog"] == True)
 
@@ -76,7 +80,7 @@ def clean(df, data_name):
 
 
 def merge_data(df1, df2, df3):
-    """Merges tweets datasets and image_predictions dataset according to "tweet_id"""
+    """Merges tweets datasets and image predictions dataset according to "tweet_id"""
 
     merged = pd.merge(df1, df2)
     return pd.merge(merged, df3)
@@ -148,14 +152,16 @@ def explore_data(df):
 
 
 if __name__ == '__main__':
-    df_archived_tweets, df_fetched_tweets, df_predictions = gather()
+    print("\nPerforming data wrangling.. Please wait")
 
-    # assess(df_archived_tweets)
+    df_enhanced_tweets, df_fetched_tweets, df_predictions = gather()
+
+    # assess(df_enhanced_tweets)
     # assess(df_fetched_tweets)
     # assess(df_predictions)
 
-    df_archived_tweets = clean(df_archived_tweets, DATA_NAMES[0])
-    # assess(df_archived_tweets)
+    df_enhanced_tweets = clean(df_enhanced_tweets, DATA_NAMES[0])
+    # assess(df_enhanced_tweets)
 
     df_fetched_tweets = clean(df_fetched_tweets, DATA_NAMES[1])
     # assess(df_fetched_tweets)
@@ -163,10 +169,13 @@ if __name__ == '__main__':
     df_predictions = clean(df_predictions, DATA_NAMES[2])
     # assess(df_predictions)
 
-    df_merged = merge_data(df_fetched_tweets, df_archived_tweets, df_predictions)
+    df_merged = merge_data(df_fetched_tweets, df_enhanced_tweets, df_predictions)
     df_merged = clean(df_merged, DATA_NAMES[3])
     # assess(df_merged)
 
     store_data(df_merged, "twitter_archive_master.csv")
 
     explore_data(df_merged)
+
+    # Predict dog stage using image classification algorithm
+    stage_prediction.begin(df_merged)

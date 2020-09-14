@@ -160,22 +160,24 @@ if __name__ == '__main__':
     # assess(df_fetched_tweets)
     # assess(df_predictions)
 
-    df_enhanced_tweets = clean(df_enhanced_tweets, DATA_NAMES[0])
-    # assess(df_enhanced_tweets)
+    df_enhanced_tweets_cleaned = clean(df_enhanced_tweets, DATA_NAMES[0])
+    # assess(df_enhanced_tweets_cleaned)
 
-    df_fetched_tweets = clean(df_fetched_tweets, DATA_NAMES[1])
-    # assess(df_fetched_tweets)
+    df_fetched_tweets_cleaned = clean(df_fetched_tweets, DATA_NAMES[1])
+    # assess(df_fetched_tweets_cleaned)
 
-    df_predictions = clean(df_predictions, DATA_NAMES[2])
-    # assess(df_predictions)
+    df_predictions_cleaned = clean(df_predictions, DATA_NAMES[2])
+    # assess(df_predictions_cleaned)
 
-    df_merged = merge_data(df_fetched_tweets, df_enhanced_tweets, df_predictions)
-    df_merged = clean(df_merged, DATA_NAMES[3])
-    # assess(df_merged)
+    df_merged = merge_data(df_fetched_tweets_cleaned,
+                           df_enhanced_tweets_cleaned,
+                           df_predictions_cleaned)
+    df_merged_cleaned = clean(df_merged, DATA_NAMES[3])
+    # assess(df_merged_cleaned)
 
-    store_data(df_merged, "twitter_archive_master.csv")
+    store_data(df_merged_cleaned, "twitter_archive_master.csv")
 
-    explore_data(df_merged)
+    explore_data(df_merged_cleaned)
 
     # Predict dog stage using image classification algorithm
-    stage_prediction.begin(df_merged)
+    stage_prediction.begin(df_merged_cleaned)

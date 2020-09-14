@@ -69,6 +69,8 @@ def store_data(df, file_name):
 
 
 def classify(df_train, df_test):
+    # TODO convert pixels to image features using opencv and image processing methods
+    
     X_train = df_train["image_data"]
     X_test = df_test["image_data"]
     y_train = df_train["stage"]

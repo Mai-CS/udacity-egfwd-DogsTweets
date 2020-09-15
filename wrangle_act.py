@@ -3,7 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from helpers import clean_data, gather_data
-import stage_prediction
 
 DATA_NAMES = ["enhanced_tweets", "fetched_tweets", "image_predictions", "merged"]
 
@@ -178,6 +177,3 @@ if __name__ == '__main__':
     store_data(df_merged_cleaned, "twitter_archive_master.csv")
 
     explore_data(df_merged_cleaned)
-
-    # Predict dog stage using image classification algorithm
-    stage_prediction.begin(df_merged_cleaned)

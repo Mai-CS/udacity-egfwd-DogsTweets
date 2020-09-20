@@ -24,8 +24,8 @@ def download_image_predictions():
               "image-predictions.tsv"
         response = requests.get(url)
 
-        with open("resources/image_predictions.txt", 'wb') as f:
+        with open("resources/image_predictions.tsv", 'wb') as f:
             f.write(response.content)
 
     finally:
-        return load_date("image_predictions.txt", "\t")
+        return load_date("image_predictions.tsv", "\t")
